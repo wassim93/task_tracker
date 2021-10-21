@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 
 class App extends Component {
 
@@ -31,6 +32,14 @@ class App extends Component {
         }
     }
 
+    addTask = (task) => {
+        const id = Math.floor(Math.random()*1000)+1
+        const newTask = {id,...task}
+
+        this.setState({tasks:[...this.state.tasks,newTask]})
+        console.log(newTask)
+    }
+
     deleteTask = (id) => {
         //const tasks = [...this.state.tasks].filter((task) => task.id !== id)
         this.setState({tasks: this.state.tasks.filter((task) => task.id !== id)}, () => {
@@ -42,14 +51,15 @@ class App extends Component {
         const foundTask = this.state.tasks.map((task) => task.id === id ? {
             ...task,
             reminder: !task.reminder
-        }: task)
-        this.setState({tasks:foundTask})
+        } : task)
+        this.setState({tasks: foundTask})
     }
 
     render() {
         return (
             <div className="container">
                 <Header/>
+                <AddTask onAdd={this.addTask}/>
                 {
                     this.state.tasks.length > 0 ?
                         <Tasks tasks={this.state.tasks} onDelete={this.deleteTask}
