@@ -27,8 +27,8 @@ class App extends Component {
                     day: '10 april 2021',
                     reminder: true,
                 }
-            ]
-
+            ],
+            showFrom:false
         }
     }
 
@@ -55,11 +55,15 @@ class App extends Component {
         this.setState({tasks: foundTask})
     }
 
+    showTask = () => {
+        this.setState({showFrom: !this.state.showFrom})
+    }
+
     render() {
         return (
             <div className="container">
-                <Header/>
-                <AddTask onAdd={this.addTask}/>
+                <Header showTask={this.showTask} buttonText={this.state.showFrom}/>
+                { this.state.showFrom &&  <AddTask onAdd={this.addTask}/>  }
                 {
                     this.state.tasks.length > 0 ?
                         <Tasks tasks={this.state.tasks} onDelete={this.deleteTask}
