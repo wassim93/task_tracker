@@ -2,35 +2,44 @@ import React, {Component} from "react";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import axios from "axios";
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tasks: [
-                {
-                    id: 1,
-                    text: 'doctor appointment',
-                    day: '5 feb 2021',
-                    reminder: true,
-                },
-                {
-                    id: 2,
-                    text: 'school meeting',
-                    day: '20 dec 2021',
-                    reminder: false,
-                },
-                {
-                    id: 3,
-                    text: 'Shopping',
-                    day: '10 april 2021',
-                    reminder: true,
-                }
-            ],
+            tasks: [],
             showFrom:false
         }
     }
+
+
+    componentDidMount() {
+        axios.get("http://localhost:5000/tasks").then(response => {
+            this.setState({tasks:response.data})
+        }).catch((error)=>{
+            throw  error
+        })
+    }
+
+   /* async componentDidMount() {
+        try {
+            const  response =  await axios.get("http://localhost:5000/tasks") ;
+            const  response2 =  await axios.get("http://localhost:5000/tasks") ;
+
+            const results = await  Promise.all([
+                axios.get("http://localhost:5000/tasks"),
+                axios.get("http://localhost:5000/tasks")
+            ])
+            Promise.
+            this.setState({tasks:response.data})
+
+        }catch (err){
+            throw  err;
+        }
+    }*/
+
 
     addTask = (task) => {
         const id = Math.floor(Math.random()*1000)+1
