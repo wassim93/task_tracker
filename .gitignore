@@ -46,3 +46,4 @@ yarn-error.log*
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 /.idea/
+/package-lock.json
