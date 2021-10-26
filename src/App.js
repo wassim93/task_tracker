@@ -4,6 +4,9 @@ import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 import axios from "axios";
 import instance from "./config/config";
+import Footer from "./components/Footer";
+import {BrowserRouter as Router, Route} from "react-router-dom";
+import About from "./components/About";
 
 class App extends Component {
 
@@ -100,15 +103,25 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <Header showTask={this.showTask} buttonText={this.state.showFrom}/>
-                {this.state.showFrom && <AddTask onAdd={this.addTask}/>}
-                {
-                    this.state.tasks.length > 0 ?
-                        <Tasks tasks={this.state.tasks} onDelete={this.deleteTask}
-                               onDoubleClick={this.toggleReminder}/> : 'No Available tasks'
-                }
-            </div>
+            <Router>
+                <div className="container">
+                    <Header showTask={this.showTask} buttonText={this.state.showFrom}/>
+
+                    <Route path="/" exact render={(props) => (
+                        <div>
+                            {this.state.showFrom && <AddTask onAdd={this.addTask}/>}
+                            {
+                                this.state.tasks.length > 0 ?
+                                    <Tasks tasks={this.state.tasks} onDelete={this.deleteTask}
+                                           onDoubleClick={this.toggleReminder}/> : 'No Available tasks'
+                            }
+                        </div>
+                    )}/>
+                    <Route path="/about" component={About}/>
+                    <Footer/>
+                </div>
+            </Router>
+
         );
     }
 }
